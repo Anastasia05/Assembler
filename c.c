@@ -1,29 +1,24 @@
-#include<stdlib.h>	// Подключаем библиотеки
+#include<stdlib.h>
 #include<stdio.h>
 
-
-/* Объявляем функции, которые написаны на ассемблере. Слово extern значит, что функции расписаны где-то за пределами этого файла */
-extern int numberwords(char *);			
+extern int numberwords(char *);
 extern void numbersymbols(char *, int *);
 
 int main()
 {
 
-    char * sentence = malloc(256);	// Выделяем память под предложение (массив символов). В скобках максимальное кол-во символов в предложении
+    char * sentence = malloc(256);
     printf("Enter sentence: ");
-    fflush(stdin);					// Освобождаем поток ввода на всякий случай, вдруг в него муха залетела
-	
-	/* Считываем строку. Первый аргумент - куда положить - в наш пустой массив для предложения, второй аргумент - сколько максимум символов положить, третий - откуда читать
-		из стандартного потока ввода (консоли) */
+    fflush(stdin);
     fgets(sentence, 256, stdin);
+    //printf("%s", sentence);
 
-    int nwords = numberwords(sentence);	// Передаём функции, написанной на ассемблере, наше предложение, а она возвращает нам количество слов в нём
+    int nwords = numberwords(sentence);
 
-    int * nsymbols = malloc(nwords * sizeof(int));	// Выделяем место под массив, в котором будет кол-во букв для каждого слова (i-ый элемент массива - кол-во букв в i-ом слове)
-    numbersymbols(sentence, nsymbols);	// Считаем количество символов в каждом слове предложения и записываем это в массив с помощью функции на ассемблере
+    int * nsymbols = malloc(nwords * sizeof(int));
+    numbersymbols(sentence, nsymbols);
 
-    /* Печатаем результаты */
-	printf("There are %d words in sentence;\n", nwords);	
+    printf("There are %d words in sentence;\n", nwords);
     for(int i = 0; i < nwords; ++i)
     {
         printf("There are %d symbols in word #%d\n", nsymbols[i], i + 1);
